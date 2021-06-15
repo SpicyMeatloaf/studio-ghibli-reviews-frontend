@@ -19,8 +19,8 @@ Technologies
 
 Getting Started
 ---------------
-[Link to Trello board](https://trello.com/b/7yrAcVRY/project-3-development-board)
-[Link to Project (Netlify)](https://blissful-thompson-887453.netlify.app/)
+* [Link to Trello board](https://trello.com/b/7yrAcVRY/project-3-development-board)
+* [Link to Project (Netlify)](https://blissful-thompson-887453.netlify.app/)
 
 Unsolved Isues
 --------------
