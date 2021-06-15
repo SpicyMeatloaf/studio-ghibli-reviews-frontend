@@ -13,21 +13,25 @@ Technologies
 * Express
 * React
 * NodeJS
-
-Screenshots
------------
-* [Overview](#)
+* Heroku
+* Netlify
+* Studio Ghibli API
 
 Getting Started
 ---------------
-[Link to Project (Heroku)](#)
+[Link to Trello board](https://trello.com/b/7yrAcVRY/project-3-development-board)
+[Link to Project (Netlify)](https://blissful-thompson-887453.netlify.app/)
 
-Instructions:
-1. 
-1. 
+Unsolved Isues
+--------------
+* Unused API data
+* Undersized and scaling text
+* Conditional states
 
 Future Enhancements
 -------------------
-* Implement *OAuth* 
-* Visual enhancements
-* 
+* Implement Authentication
+* Visual enhancements: transitions, visual feedback, layout
+* Reviews separated based on film
+* Ability to rate a film
+* Ability to comment on a review
