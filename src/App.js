@@ -5,6 +5,7 @@ import Review from "./components/Review/Review";
 import posterList from "./assets/posterList";
 
 import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Averia+Gruesa+Libre&display=swap');
@@ -190,31 +191,39 @@ export default function App() {
     return (
       <>
       <Header />
-      <section className="flex-container">
+      <section className="flex-ctr">
         <div className="row">
             {/* {allFilms} */}
             {allFilmPosters}
         </div>
         
-      </section>
+        </section>
+        <Footer />
       </>
     );
   } else {
     return(
       <>
         <Header />
-        <section className="flex-container">
+        <section className="flex-ctr-review">
           {currentFilm}
-          <form onSubmit={handleSubmit}>
-              <span>Review:</span>
-              <textarea name="review" value={state.newReview.review} onChange={handleChange}rows="4" cols="50" />
-              <button>Submit</button>
+          <form onSubmit={handleSubmit} className="review-form">
+              <textarea 
+                name="review" 
+                value={state.newReview.review} 
+                onChange={handleChange} 
+                rows="5" 
+                cols="80" 
+                placeholder="Share your thoughts..."
+              />
+              <button>Post Review</button>
           </form>
       
-          <div>
+          <div className="posted-reviews">
             {allReviews}
           </div>
         </section>
+        <Footer />
       </>
     )
   }
