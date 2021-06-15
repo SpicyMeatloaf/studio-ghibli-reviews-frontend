@@ -1,22 +1,34 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import Film from "./components/Film";
-import f00 from './assets/00.jpg';
-import f01 from './assets/01.jpg';
-import f02 from './assets/02.jpg';
-import f03 from './assets/03.jpg';
+import Film from "./components/Film/Film";
+import Review from "./components/Review/Review";
+import posterList from "./assets/posterList";
+
+import Header from './components/Header/Header';
+
 
 export default function App() {
   const [state, setState] = useState({
-    films: [],
-    posters: [f00, f01, f02, f03],
+    films: [], 
+    posters: [],
     currentPoster: [],
     viewingMovie: false,
     newReview: {
       review: "",
     },
+    filmReviews: [{}],
   });
 
+  useEffect(function() {
+    getAppData();
+    renderAllPosters();
+    getReviews();
+
+  }, [])
+
+  // =================
+  // fetch data functions
+  // =================
 
   async function getAppData() {
     const films = await fetch('https://ghibliapi.herokuapp.com/films')
@@ -29,13 +41,20 @@ export default function App() {
       films
     }));
   }
-  useEffect(function() {
+
+  async function getReviews() {
+    const filmReviews = await fetch('http://localhost:3001/database/reviews')
+    .then(res => res.json())
     
-    getAppData();
+    setState(prevState => ({
+      ...prevState,
+      filmReviews
+    }));
+  }
 
-  }, [])
-
+  // =================
   // importing film info
+  // =================
 
   function importAll(r) {
     let images = {};
@@ -49,32 +68,51 @@ export default function App() {
     <Film key={idx} data={film} imgDb={images} />
   );
 
+  // =================
   // film posters
+  // =================
+ 
+  function renderAllPosters() {
+    state.posters = Object.values(posterList);
+  };
 
-  const allFilmPosters = state.posters.map((poster, idx) => 
-    <img src={poster} alt="" className="poster" onClick={() => clickPoster()} />
-  );
-
-  function clickPoster() {
+  function clickPoster(imageId) {
     if(!state.viewingMovie){
-
+      const testPoster = 'f0' + imageId;
+      const currentPoster = posterList[testPoster];
       setState(prevState => ({
+        ...prevState,
         films: [],
-        posters: [f00],
+        posters: [currentPoster],
         viewingMovie: true,
       }));
     }
     else {
+      renderAllPosters();
       setState(prevState => ({
+        ...prevState,
         films: [],
-        posters: [f00, f01, f02, f03],
         viewingMovie: false,
       }));
   
     }
   }
 
+  const allFilmPosters = state.posters.map((poster, idx) => 
+    <img src={poster} alt="invalid" className="poster" onClick={() => clickPoster(idx)} />
+  );
+
+  // =================
+  // display reviews
+  // =================
+
+  const allReviews = state.filmReviews.map((review, idx) => 
+    <Review key={idx} data={review} onClick={handleDelete}/>
+  );
+
+  // =================
   // handler functions
+  // =================
 
   function handleChange(e) {
     
@@ -90,7 +128,7 @@ export default function App() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const review = await fetch('http://localhost:3001/database/reviews', {
+      await fetch('http://localhost:3001/database/reviews', {
         method: 'POST',
         headers: {
           'Content-type': 'Application/json',
@@ -105,15 +143,36 @@ export default function App() {
         },
     }));
 
+    getReviews();
+
     } 
     catch (error) {
       console.log(error);
     }
   }
 
+  async function handleDelete(id) {
+    try {
+      const filmReviews = await fetch(`http://localhost:3001/database/reviews/${id}`, {
+        method: 'DELETE',
+      }).then(res => res.json());
+      setState(prevState => ({
+        ...prevState,
+        filmReviews
+      }));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // =================
+  // display page
+  // =================
+
   return (
+    <>
     <section className="flex-container">
-      <h2>At the Bus Stop</h2>
+      <Header />
       <div className="row">
           {/* {allFilms} */}
           {allFilmPosters}
@@ -123,6 +182,10 @@ export default function App() {
         <input name="review" value={state.newReview.review} onChange={handleChange}/>
         <button>Submit</button>
       </form>
+      <div>
+        {allReviews}
+      </div>
     </section>
+    </>
   );
 }
