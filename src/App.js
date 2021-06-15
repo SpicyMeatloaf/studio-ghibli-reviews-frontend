@@ -45,7 +45,7 @@ export default function App() {
   }
 
   async function getReviews() {
-    const filmReviews = await fetch('http://localhost:3001/database/reviews')
+    const filmReviews = await fetch('https://studio-ghibli-reviews-backend.herokuapp.com/database/reviews')
     .then(res => res.json())
     
     setState(prevState => ({
@@ -147,7 +147,7 @@ export default function App() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      await fetch('http://localhost:3001/database/reviews', {
+      await fetch('https://studio-ghibli-reviews-backend.herokuapp.com/database/reviews', {
         method: 'POST',
         headers: {
           'Content-type': 'Application/json',
@@ -170,7 +170,7 @@ export default function App() {
 
   async function handleDelete(id) {
     try {
-      const filmReviews = await fetch(`http://localhost:3001/database/reviews/${id}`, {
+      const filmReviews = await fetch(`https://studio-ghibli-reviews-backend.herokuapp.com/database/reviews/${id}`, {
         method: 'DELETE',
       }).then(res => res.json());
       setState(prevState => ({
