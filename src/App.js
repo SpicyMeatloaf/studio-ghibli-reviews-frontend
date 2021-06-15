@@ -207,6 +207,28 @@ export default function App() {
         <Header />
         <section className="flex-ctr-review">
           {currentFilm}
+          <table className="poster-info">
+            <tr>
+              <td>Original Title:</td>
+              <td>title</td>
+            </tr>
+            <tr>
+              <td>Release Date:</td>
+              <td>date</td>
+            </tr>
+            <tr>
+              <td>Rating:</td>
+              <td>rating</td>
+            </tr>
+            <tr>
+              <td>Average User Score:</td>
+              <td>score</td>
+            </tr>
+            <tr>
+              <td>Runtime:</td>
+              <td>x minutes</td>
+            </tr>
+          </table>
           <form onSubmit={handleSubmit} className="review-form">
               <textarea 
                 name="review" 

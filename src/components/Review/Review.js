@@ -5,7 +5,7 @@ function Review(props) {
         <section>
             <article className={styles.review}>
                 <div>{props.data.review}</div>
-                <div onClick={() => props.onClick(props.data._id)}>{'Delete Review'}</div>
+                <div className={styles.controls} onClick={() => props.onClick(props.data._id)}>{'Delete'}</div>
             </article>
         </section>
     )

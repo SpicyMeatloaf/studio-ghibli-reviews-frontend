@@ -1,0 +1,14 @@
+
+.review {
+    display: grid;
+    grid-template-columns: 2fr 30px;
+    /* grid-template-rows: 1fr; */
+    background-color: gray;
+    margin: 10px;
+    padding: 10px;
+}
+
+.controls {
+    font-size: 12px;
+    cursor: pointer;
+}
