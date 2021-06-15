@@ -26,3 +26,10 @@
   object-fit: cover;
   padding: 6px;
 }
+
+.poster-review {
+  width: 400px;
+  height: 600px;
+  object-fit: cover;
+  padding: 6px;
+}

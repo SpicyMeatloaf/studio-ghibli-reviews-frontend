@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import Film from "./components/Film/Film";
+//import Film from "./components/Film/Film";
 import Review from "./components/Review/Review";
 import posterList from "./assets/posterList";
 
 import Header from './components/Header/Header';
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Averia+Gruesa+Libre&display=swap');
+</style> 
 
 
 export default function App() {
@@ -12,17 +16,16 @@ export default function App() {
     films: [], 
     posters: [],
     currentPoster: [],
-    viewingMovie: false,
     newReview: {
       review: "",
     },
     filmReviews: [{}],
+    reviewPage: false,
   });
 
   useEffect(function() {
     getAppData();
     renderAllPosters();
-    getReviews();
 
   }, [])
 
@@ -55,7 +58,8 @@ export default function App() {
   // =================
   // importing film info
   // =================
-
+  
+  /*
   function importAll(r) {
     let images = {};
     r.keys().map((item, index) => { images[item.replace('./', '')] = r(item); });
@@ -67,6 +71,7 @@ export default function App() {
   const allFilms = state.films.map((film, idx) => 
     <Film key={idx} data={film} imgDb={images} />
   );
+  */
 
   // =================
   // film posters
@@ -77,30 +82,45 @@ export default function App() {
   };
 
   function clickPoster(imageId) {
-    if(!state.viewingMovie){
-      const testPoster = 'f0' + imageId;
-      const currentPoster = posterList[testPoster];
+    // displays film information
+    if(!state.reviewPage){
+      let posterId = 'f'
+      if(imageId < 10) {
+        posterId += '0' + imageId;
+      } else {
+        posterId += imageId;
+      }
+
+      getReviews();
+
+      const currentPoster = posterList[posterId];
+
       setState(prevState => ({
         ...prevState,
         films: [],
-        posters: [currentPoster],
-        viewingMovie: true,
+        posters: [],
+        currentPoster: [currentPoster],
+        reviewPage: true,
       }));
     }
+    // return to the landing page
     else {
       renderAllPosters();
       setState(prevState => ({
         ...prevState,
         films: [],
-        viewingMovie: false,
+        currentPoster: [],
+        reviewPage: false,
       }));
   
-    }
+    } 
   }
 
   const allFilmPosters = state.posters.map((poster, idx) => 
-    <img src={poster} alt="invalid" className="poster" onClick={() => clickPoster(idx)} />
+    <img key={idx} src={poster} alt="" className="poster" onClick={() => clickPoster(idx)}/>
   );
+
+  const currentFilm = <img src={state.currentPoster} alt="" className="poster-review" onClick={() => clickPoster(null)}/>
 
   // =================
   // display reviews
@@ -136,15 +156,13 @@ export default function App() {
         body: JSON.stringify(state.newReview),
       }).then(res => res.json());
 
+      getReviews();
       setState(prevState => ({
         ...prevState,
         newReview: {
           review: ""
         },
-    }));
-
-    getReviews();
-
+      }));
     } 
     catch (error) {
       console.log(error);
@@ -169,23 +187,36 @@ export default function App() {
   // display page
   // =================
 
-  return (
-    <>
-    <section className="flex-container">
+  if(!state.reviewPage){
+    return (
+      <>
       <Header />
-      <div className="row">
-          {/* {allFilms} */}
-          {allFilmPosters}
-      </div>
-      <form onSubmit={handleSubmit}>
-        <span>Review:</span>
-        <input name="review" value={state.newReview.review} onChange={handleChange}/>
-        <button>Submit</button>
-      </form>
-      <div>
-        {allReviews}
-      </div>
-    </section>
-    </>
-  );
+      <section className="flex-container">
+        <div className="row">
+            {/* {allFilms} */}
+            {allFilmPosters}
+        </div>
+        
+      </section>
+      </>
+    );
+  } else {
+    return(
+      <>
+        <Header />
+        <section className="flex-container">
+          {currentFilm}
+          <form onSubmit={handleSubmit}>
+              <span>Review:</span>
+              <textarea name="review" value={state.newReview.review} onChange={handleChange}rows="4" cols="50" />
+              <button>Submit</button>
+          </form>
+      
+          <div>
+            {allReviews}
+          </div>
+        </section>
+      </>
+    )
+  }
 }
