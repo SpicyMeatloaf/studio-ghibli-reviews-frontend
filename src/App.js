@@ -24,8 +24,7 @@ export default function App() {
   });
 
   useEffect(function() {
-    getAppData();
-    renderAllPosters();
+    getAppData(); 
 
   }, [])
 
@@ -104,7 +103,7 @@ export default function App() {
       }));
     }
     // return to the landing page
-    else {
+    else { 
       renderAllPosters();
       setState(prevState => ({
         ...prevState,
@@ -116,7 +115,7 @@ export default function App() {
     } 
   }
 
-  const allFilmPosters = state.posters.map((poster, idx) => 
+  const allFilmPosters = Object.values(posterList).map((poster, idx) => 
     <img key={idx} src={poster} alt="" className="poster" onClick={() => clickPoster(idx)}/>
   );
 
