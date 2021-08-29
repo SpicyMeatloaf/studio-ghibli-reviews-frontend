@@ -20,7 +20,8 @@ Technologies
 Getting Started
 ---------------
 * [Link to Trello board](https://trello.com/b/7yrAcVRY/project-3-development-board)
-* [Link to Project (Netlify)](https://blissful-thompson-887453.netlify.app/)
+* [Link to Project (Netlify)](https://studio-ghibli-reviews.netlify.app/)
+* [Link to Backend Repo](https://github.com/SpicyMeatloaf/studio-ghibli-reviews-backend)
 
 Unsolved Isues
 --------------
